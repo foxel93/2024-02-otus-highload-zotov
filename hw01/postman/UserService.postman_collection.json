@@ -1,0 +1,78 @@
+{
+	"info": {
+		"_postman_id": "42058526-2c85-44e0-b376-b552f3cdf7b6",
+		"name": "UserService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19640570"
+	},
+	"item": [
+		{
+			"name": "UserRegistry",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"anybody\",\n    \"password\": \"anypassword\",\n    \"firstName\": \"anyname\",\n    \"secondName\": \"anySecondName\",\n    \"birthDate\": \"2000-03-04\",\n    \"gender\": \"MALE\",\n    \"interests\": \"sport\",\n    \"city\": \"Moscow\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserById",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "anypassword",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "anybody",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/get/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"get",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
