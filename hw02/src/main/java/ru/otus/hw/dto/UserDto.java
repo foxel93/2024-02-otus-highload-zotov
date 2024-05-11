@@ -3,6 +3,7 @@ package ru.otus.hw.dto;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,7 +39,7 @@ public class UserDto {
 
     @NotNull
     @JsonView(View.Public.class)
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @NotNull
     @JsonView(View.Public.class)

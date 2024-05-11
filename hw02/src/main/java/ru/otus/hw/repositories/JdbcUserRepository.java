@@ -1,12 +1,14 @@
 package ru.otus.hw.repositories;
 
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -23,6 +25,8 @@ public class JdbcUserRepository implements UserRepository {
     private static final RowMapper<User> MAPPER = (rs, rowNum) -> mapUserRow(rs);
 
     private final NamedParameterJdbcOperations jdbc;
+    private final JdbcTemplate jdbcTemplate;
+
 
     @Override
     public Optional<User> findById(long id) {
@@ -60,6 +64,22 @@ public class JdbcUserRepository implements UserRepository {
             return insert(user);
         }
         return update(user);
+    }
+
+    @Override
+    public List<User> saveAll(List<User> users) {
+        var keyHolder = new GeneratedKeyHolder();
+        var sqlQuery = """
+                INSERT INTO users (username, password, firstName, secondName, birthDate, gender, interests, city)
+                VALUES (:username, :password, :firstName, :secondName, :birthDate, :gender, :interests, :city)
+            """;
+        var params = users.stream().map(user -> mapUserParams(user)).toArray(MapSqlParameterSource[]::new);
+        jdbc.batchUpdate(sqlQuery,
+            params,
+            keyHolder,
+            new String[] {"id"});
+        // TODO добавить id
+        return users;
     }
 
     @Override
@@ -159,7 +179,7 @@ public class JdbcUserRepository implements UserRepository {
             rs.getString("password"),
             rs.getString("firstName"),
             rs.getString("secondName"),
-            Date.valueOf(rs.getString("birthDate")),
+            Date.valueOf(rs.getString("birthDate")).toLocalDate(),
             Gender.valueOf(rs.getString("gender")),
             rs.getString("interests"),
             rs.getString("city")

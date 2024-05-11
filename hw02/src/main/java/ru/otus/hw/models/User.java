@@ -1,5 +1,6 @@
 package ru.otus.hw.models;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +27,7 @@ public class User implements UserDetails {
 
     private String secondName;
 
-    private Date birthDate;
+    private LocalDate birthDate;
 
     private Gender gender;
 

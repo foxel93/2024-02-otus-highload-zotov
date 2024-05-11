@@ -13,5 +13,7 @@ public interface UserRepository {
 
     User save(User user);
 
+    List<User> saveAll(List<User> users);
+
     void deleteById(long id);
 }
