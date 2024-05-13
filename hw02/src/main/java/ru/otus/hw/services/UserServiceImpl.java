@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findByNameAndSurnamePrefix(UserSearchDto userSearchDto) {
         return userRepository.findByNameAndSurnamePrefix(userSearchDto.getFirstName(), userSearchDto.getSecondName())
             .stream()
-            .sorted(Comparator.comparingLong(User::getId))
             .map(this::toDto)
             .toList();
     }

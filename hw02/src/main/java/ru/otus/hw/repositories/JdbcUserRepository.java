@@ -25,8 +25,6 @@ public class JdbcUserRepository implements UserRepository {
     private static final RowMapper<User> MAPPER = (rs, rowNum) -> mapUserRow(rs);
 
     private final NamedParameterJdbcOperations jdbc;
-    private final JdbcTemplate jdbcTemplate;
-
 
     @Override
     public Optional<User> findById(long id) {
@@ -54,6 +52,7 @@ public class JdbcUserRepository implements UserRepository {
                 SELECT id, username, password, firstName, secondName, birthDate, gender, interests, city
                 FROM users
                 WHERE firstName LIKE :firstName and secondName LIKE :secondName
+                ORDER BY id
             """;
         return jdbc.query(sqlQuery, mapNamePrefixParam(firstName, secondName), MAPPER);
     }
