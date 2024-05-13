@@ -1,14 +1,12 @@
 package ru.otus.hw.repositories;
 
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -72,7 +70,7 @@ public class JdbcUserRepository implements UserRepository {
                 INSERT INTO users (username, password, firstName, secondName, birthDate, gender, interests, city)
                 VALUES (:username, :password, :firstName, :secondName, :birthDate, :gender, :interests, :city)
             """;
-        var params = users.stream().map(user -> mapUserParams(user)).toArray(MapSqlParameterSource[]::new);
+        var params = users.stream().map(JdbcUserRepository::mapUserParams).toArray(MapSqlParameterSource[]::new);
         jdbc.batchUpdate(sqlQuery,
             params,
             keyHolder,
